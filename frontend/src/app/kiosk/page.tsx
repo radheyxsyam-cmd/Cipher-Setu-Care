@@ -76,15 +76,18 @@ export default function KioskPage() {
     setError(null);
     
     try {
-      // Map OCR data into simple arrays for the AI prompt
-      const meds = ocrData?.extracted_medications.map(m => `${m.name} (${m.dosage})`) || [];
-      const labs = ocrData?.abnormal_flags || [];
+  // Map OCR data into simple arrays for the AI prompt
+  const meds = ocrData?.extracted_medications.map(m => `${m.name} (${m.dosage})`) || [];
+  const labs = ocrData?.abnormal_flags || [];
 
-      const response = await fetch("http://localhost:8000/api/analyze-intake", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
+  // ✅ Use environment variable with fallback to live Render URL
+  const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || "https://cipher-setu-care.onrender.com";
+  
+  const response = await fetch(`${API_BASE_URL}/api/analyze-intake`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
         body: JSON.stringify({
           medications: meds,
           lab_values: labs,
