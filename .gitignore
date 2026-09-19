@@ -1,0 +1,70 @@
+# ─────────────────────────────────────────────────────────────────
+# SETU-Care .gitignore
+# CRITICAL: Never commit secrets or credentials
+# ─────────────────────────────────────────────────────────────────
+
+# === SECRETS & CREDENTIALS (ZERO-LEAK POLICY) ===
+.env
+.env.local
+.env.*.local
+.env.production
+aws-credentials.json
+*.pem
+*.key
+*.p12
+*.pfx
+secrets/
+
+# === PYTHON / BACKEND ===
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+*.egg
+*.egg-info/
+dist/
+build/
+.eggs/
+.venv/
+venv/
+env/
+.mypy_cache/
+.ruff_cache/
+.pytest_cache/
+htmlcov/
+.coverage
+.coverage.*
+*.log
+
+# === NODE / FRONTEND ===
+node_modules/
+.next/
+out/
+.npm
+.eslintcache
+*.tsbuildinfo
+next-env.d.ts
+
+# === AWS & CLOUD ===
+.aws/
+cdk.out/
+samconfig.toml
+*.cfnresponse
+
+# === IDE & OS ===
+.idea/
+.vscode/
+*.swp
+*.swo
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# === DOCKER ===
+*.dockerignore
+
+# === MISC ===
+*.zip
+*.tar.gz
+temp/
+tmp/
