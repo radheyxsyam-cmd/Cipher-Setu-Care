@@ -31,7 +31,6 @@ logging.basicConfig(
 logger = logging.getLogger(__name__)
 
 # ── Gemini Client & Schemas ───────────────────────────────────────
-# It will now automatically find GEMINI_API_KEY from your .env file
 gemini_client = genai.Client()
 
 class IntakeData(BaseModel):
@@ -53,19 +52,19 @@ app = FastAPI(
 )
 
 # ── CORS (Strict — no wildcard) ───────────────────────────────────
-allowed_origins = [settings.frontend_origin]
-if not settings.is_production:
-    allowed_origins.extend([
-        "http://localhost:3000",
-        "http://localhost:3001",
-    ])
+allowed_origins = [
+    "https://main.d350tj13jlp3wp.amplifyapp.com",
+    settings.frontend_origin,
+    "http://localhost:3000",
+    "http://localhost:3001",
+]
 
 app.add_middleware(
     CORSMiddleware,
     allow_origins=allowed_origins,
     allow_credentials=True,
-    allow_methods=["GET", "POST", "PUT", "DELETE", "OPTIONS"],
-    allow_headers=["Authorization", "Content-Type", "X-Request-ID"],
+    allow_methods=["*"],
+    allow_headers=["*"],
     expose_headers=["X-Request-ID", "X-Process-Time"],
     max_age=3600,
 )
@@ -131,6 +130,7 @@ async def analyze_clinical_data(data: IntakeData):
     except Exception as e:
         logger.error(f"Gemini Error: {e}")
         raise HTTPException(status_code=500, detail=str(e))
+
 # ── Health Check ──────────────────────────────────────────────────
 @app.get("/health", tags=["System"], summary="Service health check")
 async def health_check():
