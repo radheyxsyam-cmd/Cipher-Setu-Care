@@ -81,7 +81,7 @@ App: http://localhost:3000
 
 ## ☁️ AWS Deployment
 
-### Backend → AWS App Runner
+### Backend → AWS App Runner / Render(used for now as AWS App Runner Iwas facing issue)
 
 ```bash
 cd backend
