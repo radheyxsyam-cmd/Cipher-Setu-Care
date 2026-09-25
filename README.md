@@ -2,8 +2,6 @@
 
 **A production-ready, AI-powered healthcare clinical intake and rural care coordination platform.**
 
-> AWS Hackathon Track: "Ship It" — Fully deployed on AWS Cloud
-
 ---
 
 ## 📋 Overview
@@ -18,7 +16,8 @@ SETU-Care addresses two critical healthcare infrastructure problems in India:
 
 ## 🏗️ Architecture
 
-```
+
+```text
 ┌─────────────────────────────────────────────────────┐
 │                 AWS Amplify (Frontend)               │
 │  Next.js 14 + TypeScript + Tailwind CSS              │
@@ -28,14 +27,15 @@ SETU-Care addresses two critical healthcare infrastructure problems in India:
 └─────────────────────┬───────────────────────────────┘
                       │ HTTPS
 ┌─────────────────────▼───────────────────────────────┐
-│              AWS App Runner (Backend)                │
-│  FastAPI + Python 3.11 + Pydantic v2                 │
-│  ├── Amazon Bedrock (Claude 3) → Clinical NLP        │
-│  ├── Amazon Textract           → Prescription OCR   │
+│              Render (FastAPI Backend)                │
+│  Python 3.11 + Pydantic v2                           │
+│  ├── Amazon Transcribe         → Multilingual Voice  │
+│  ├── Amazon Textract           → Prescription OCR    │
+│  ├── Google Gemini AI          → Clinical NLP Fusion │
 │  ├── Amazon DynamoDB           → Patient Records     │
 │  └── Amazon S3                 → Document Storage    │
 └─────────────────────────────────────────────────────┘
-```
+*Note: Backend was initially tested on AWS App Runner but moved to Render for optimized WebSocket audio streaming.*
 
 ---
 
@@ -124,6 +124,7 @@ aws apprunner create-service --cli-input-json file://apprunner-config.json
 ## 📁 Project Structure
 
 ```
+```text
 setu-care/
 ├── .gitignore
 ├── README.md
@@ -150,9 +151,10 @@ setu-care/
     │   ├── main.py
     │   ├── config.py
     │   ├── services/
-    │   │   ├── bedrock_service.py
-    │   │   ├── textract_service.py
-    │   │   ├── dynamodb_service.py
+    │   │   ├── transcribe_service.py # AWS Transcribe audio handling
+    │   │   ├── textract_service.py   # AWS Textract OCR logic
+    │   │   ├── gemini_service.py     # Google Gemini clinical NLP
+    │   │   ├── dynamodb_service.py   
     │   │   └── s3_service.py
     │   ├── routes/
     │   │   ├── intake.py
@@ -163,9 +165,7 @@ setu-care/
     │       └── patient.py
     ├── requirements.txt
     ├── Dockerfile
-    ├── apprunner.yaml
     └── .env.example
-```
 
 ---
 
